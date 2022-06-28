@@ -7,6 +7,7 @@ package it.polito.tdp.crimes;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.crimes.model.Adiacenza;
 import it.polito.tdp.crimes.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,16 +26,16 @@ public class CrimesController {
     private URL location;
 
     @FXML // fx:id="boxCategoria"
-    private ComboBox<?> boxCategoria; // Value injected by FXMLLoader
+    private ComboBox<String> boxCategoria; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxMese"
-    private ComboBox<?> boxMese; // Value injected by FXMLLoader
+    private ComboBox<String> boxMese; // Value injected by FXMLLoader
 
     @FXML // fx:id="btnAnalisi"
     private Button btnAnalisi; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxArco"
-    private ComboBox<?> boxArco; // Value injected by FXMLLoader
+    private ComboBox<Adiacenza> boxArco; // Value injected by FXMLLoader
 
     @FXML // fx:id="btnPercorso"
     private Button btnPercorso; // Value injected by FXMLLoader
@@ -46,12 +47,58 @@ public class CrimesController {
     void doCreaGrafo(ActionEvent event) {
     	txtResult.clear();
     	txtResult.appendText("Crea grafo...\n");
+    	String c = boxCategoria.getValue();
+    	String m = boxMese.getValue();
+    	int mese =0;
+    	if(m.compareTo("Gennaio")==0) {
+    		mese=1;
+    	}
+    	if(m.compareTo("Febbraio")==0) {
+    		mese=2;
+    	}
+    	if(m.compareTo("Marzo")==0) {
+    		mese=3;
+    	}
+    	if(m.compareTo("Aprile")==0) {
+    		mese=4;
+    	}
+    	if(m.compareTo("Maggio")==0) {
+    		mese=5;
+    	}
+    	if(m.compareTo("Giugno")==0) {
+    		mese=6;
+    	}
+    	if(m.compareTo("Luglio")==0) {
+    		mese=7;
+    	}
+    	if(m.compareTo("Agosto")==0) {
+    		mese=8;
+    	}
+    	if(m.compareTo("Settembre")==0) {
+    		mese=9;
+    	}
+    	if(m.compareTo("Ottobre")==0) {
+    		mese=10;
+    	}
+    	if(m.compareTo("Novembre")==0) {
+    		mese=11;
+    	}
+    	if(m.compareTo("Dicembre")==0) {
+    		mese=12;
+    	}
+    	this.model.creaGrafo(c,mese);
+    	txtResult.appendText("Grafo creato con "+this.model.nVertici()+" vertici e "+this.model.nArchi()+" archi");
+    	
+    	boxArco.getItems().clear();
+    	boxArco.getItems().addAll(this.model.getArchi());
     }
     
     @FXML
     void doCalcolaPercorso(ActionEvent event) {
     	txtResult.clear();
     	txtResult.appendText("Calcola percorso...\n");
+    	Adiacenza a = boxArco.getValue();
+    	txtResult.appendText(this.model.trovaPercorso(a.getR1(), a.getR2()));
     }
     
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -67,5 +114,22 @@ public class CrimesController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	boxCategoria.getItems();
+    	boxCategoria.getItems().addAll(this.model.getCategorie());
+    	boxMese.getItems().clear();
+    	boxMese.getItems().add("Gennaio");
+    	boxMese.getItems().add("Febbraio");
+    	boxMese.getItems().add("Marzo");
+    	boxMese.getItems().add("Aprile");
+    	boxMese.getItems().add("Maggio");
+    	boxMese.getItems().add("Giugno");
+    	boxMese.getItems().add("Luglio");
+    	boxMese.getItems().add("Agosto");
+    	boxMese.getItems().add("Settembre");
+    	boxMese.getItems().add("Ottobre");
+    	boxMese.getItems().add("Novembre");
+    	boxMese.getItems().add("Dicembre");
     }
+    
+  
 }
